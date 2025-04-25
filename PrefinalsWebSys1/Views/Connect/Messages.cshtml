@@ -1,0 +1,207 @@
+﻿<style>
+    .messages-pane{
+        background-color: #E9F1FB;
+        min-height:200px;
+        padding: 20px;
+        max-height: 75vh;
+        overflow: auto;
+    }
+    
+    .messages-box{
+        background-color: #73ABE0;
+        border-radius: 10px;
+        padding: 10px;
+        margin: 5px;
+    }
+    
+        .messages-box .thread {
+            background-color: #FFFFFF;
+            border-radius: 10px;
+            box-shadow:1px 1px 5px #333;
+            margin: 10px;
+            padding:10px;
+            width:70%;
+        }
+
+    .thread-user {
+        border-bottom: 1px solid #CCC;
+    }
+
+    .thread-user h4{
+        display:inline;
+    }
+
+
+    .message-to {
+        margin-left: auto !important;
+        background-color: #F8EDED !important;
+    }
+
+    .message-from {
+        margin-right: auto !important;
+    }
+
+    .message-new {
+        background-color: #E7F4F0 !important;
+    }
+</style>
+<!--new messages here-->
+<div id="result" class="messages-pane">
+    <div class="messages-box">
+        <div class="thread message-to">
+            <div class="thread-user">
+                <i class="fa fa-user"></i>
+                <h4>Steve</h4>
+            </div>
+            <p>
+                You F***** 
+            </p>
+        </div>
+        <div class="thread message-from-new">
+            <div class="thread-user">
+                <i class="fa fa-user"></i>
+                <h4>Pedro</h4>
+            </div>
+            <p>
+                Dito yun Mensahe ng user
+            </p>
+        </div>
+        <div class="thread message-to">
+            <div class="thread-user">
+                <i class="fa fa-user"></i>
+                <h4>Steve</h4>
+            </div>
+            <p>
+                Let's Volt In
+            </p>
+        </div>
+        <div class="thread message-to">
+            <div class="thread-user">
+                <i class="fa fa-user"></i>
+                <h4>Steve</h4>
+            </div>
+            <p>
+                Palakol ni Diva
+            </p>
+        </div>
+    </div>
+    <div class="messages-box">
+        <div class="thread">
+            <div class="thread-user">
+                <i class="fa fa-user"></i>
+                <h4>Pedro</h4>
+            </div>
+            <p>
+                Dito yun Mensahe ng user
+            </p>
+        </div>
+        <div class="thread message-to">
+            <div class="thread-user">
+                <i class="fa fa-user"></i>
+                <h4>Steve</h4>
+            </div>
+            <p>
+                Binhi ng Kadiliman
+            </p>
+        </div>
+    </div>
+    <div class="messages-box">
+        <div class="thread message-to">
+            <div class="thread-user">
+                <i class="fa fa-user"></i>
+                <h4>Steve</h4>
+            </div>
+            <p>
+                You F*****
+            </p>
+        </div>
+        <div class="thread message-from-new">
+            <div class="thread-user">
+                <i class="fa fa-user"></i>
+                <h4>Pedro</h4>
+            </div>
+            <p>
+                Dito yun Mensahe ng user
+            </p>
+        </div>
+        <div class="thread message-to">
+            <div class="thread-user">
+                <i class="fa fa-user"></i>
+                <h4>Steve</h4>
+            </div>
+            <p>
+                Let's Volt In
+            </p>
+        </div>
+        <div class="thread message-to">
+            <div class="thread-user">
+                <i class="fa fa-user"></i>
+                <h4>Steve</h4>
+            </div>
+            <p>
+                Palakol ni Diva
+            </p>
+        </div>
+    </div>
+    <div class="messages-box">
+        <div class="thread">
+            <div class="thread-user">
+                <i class="fa fa-user"></i>
+                <h4>Pedro</h4>
+            </div>
+            <p>
+                Dito yun Mensahe ng user
+            </p>
+        </div>
+        <div class="thread message-to">
+            <div class="thread-user">
+                <i class="fa fa-user"></i>
+                <h4>Steve</h4>
+            </div>
+            <p>
+                Binhi ng Kadiliman
+            </p>
+        </div>
+    </div>
+</div>
+<div class="messages-editor">    
+    <div id="messageInput" class="input-group">             
+        <textarea id="txtSearch" type="text" class="form-control" ></textarea>
+        <button type="button" class="input-group-text text-primary" style="width: 70px;font-size: 20px;"><i style=" margin: 0px auto; " class="fas fa-paper-plane"></i></button>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+
+        //Page Load
+        $(function(){
+            // const x = document.getElementById("result");
+            // // Check browser support for SSE
+            // if(typeof(EventSource) !== "undefined") {
+            //   var source = new EventSource("/Connect/HasChanges");
+            //   source.onmessage = function(event) {
+            //     x.innerHTML += event.data + "<br>";
+            //   };
+            // } else {
+            //   x.innerHTML = "Sorry, no support for server-sent events.";
+            // }
+
+            //checkMessages();
+        });
+
+        function checkMessages() {
+            $.ajax({
+                url:'/Connect/GetMessages',
+                method:'GET',
+                success:function(res){
+                    $('#result').html(res);
+                    setTimeout('checkMessages()',1000);
+                },   
+                error:function(err){
+                    setTimeout('checkMessages()',1000);
+                }
+            });
+        }
+    </script>
+}
