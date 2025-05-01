@@ -15,6 +15,8 @@ public partial class SmileBookDBContext : DbContext
 
     public virtual DbSet<UserAccount> UserAccounts { get; set; }
 
+    public virtual DbSet<UserMessage> UserMessages { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<UserAccount>(entity =>
@@ -40,6 +42,22 @@ public partial class SmileBookDBContext : DbContext
             entity.Property(e => e.Username)
                 .IsRequired()
                 .HasMaxLength(255);
+        });
+
+        modelBuilder.Entity<UserMessage>(entity =>
+        {
+            entity.ToTable("UserMessage", "dbo");
+
+            entity.Property(e => e.CreatedBy).HasMaxLength(255);
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+            entity.Property(e => e.MessageBody).IsRequired();
+            entity.Property(e => e.MessageType)
+                .IsRequired()
+                .HasMaxLength(255);
+            entity.Property(e => e.ModifiedBy).HasMaxLength(255);
+            entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
+            entity.Property(e => e.ReceivedDate).HasColumnType("datetime");
+            entity.Property(e => e.SentDate).HasColumnType("datetime");
         });
 
         OnModelCreatingPartial(modelBuilder);

@@ -163,39 +163,90 @@
             </p>
         </div>
     </div>
-</div>
-<div class="messages-editor">    
-    <div id="messageInput" class="input-group">             
-        <textarea id="txtSearch" type="text" class="form-control" ></textarea>
-        <button type="button" class="input-group-text text-primary" style="width: 70px;font-size: 20px;"><i style=" margin: 0px auto; " class="fas fa-paper-plane"></i></button>
+    <div class="messages-box">
+        <div class="thread">
+            <div class="thread-user">
+                <i class="fa fa-user"></i>
+                <h4>Pedro</h4>
+            </div>
+            <p>
+                Dito yun Mensahe ng user
+            </p>
+        </div>
     </div>
 </div>
-
+<form id="frmSendMessage" action="/api/Messaging/SendMessage" method="post">
+    <div class="messages-editor">    
+        <div id="messageInput" class="input-group">     
+            <input type="hidden" name="SenderUserID" value="3" />
+            <input type="hidden" name="ReceiverUserID" value="4" />
+            <textarea id="txtSearch" type="text" class="form-control" name="SenderMessage" autocomplete="off"></textarea>
+            <button type="submit" class="input-group-text text-primary" style="width: 70px;font-size: 20px;"><i style=" margin: 0px auto; " class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+</form>
 @section Scripts{
     <script>
 
         //Page Load
         $(function(){
-            // const x = document.getElementById("result");
-            // // Check browser support for SSE
-            // if(typeof(EventSource) !== "undefined") {
-            //   var source = new EventSource("/Connect/HasChanges");
-            //   source.onmessage = function(event) {
-            //     x.innerHTML += event.data + "<br>";
-            //   };
-            // } else {
-            //   x.innerHTML = "Sorry, no support for server-sent events.";
-            // }
 
-            //checkMessages();
+
+            $('#frmSendMessage').on('submit',function(){
+                
+                console.log('Form Submitted!!!');
+                $.ajax({
+                    url:$('#frmSendMessage').attr('action'),
+                    //url:'/Connect/SendMessage',
+                    method:'POST',
+                    data:$('#frmSendMessage').serialize(),
+                    success:function(res){
+                        console.log(res);
+                    },
+                    error:function(err){
+                        console.log(err);
+                    }
+                });
+                return false;
+            });
+
+            checkMessages();
         });
+
+        var currentUserID = 3;
+        var messageCount = 0;
 
         function checkMessages() {
             $.ajax({
-                url:'/Connect/GetMessages',
+                url:'/api/Messaging/GetMessages?UserID=' + currentUserID,
                 method:'GET',
                 success:function(res){
-                    $('#result').html(res);
+                    
+                    let msgs ='';
+                    let msgFormat = '<div class="messages-box"> <div class="thread"> <div class="thread-user"> <i class="fa fa-user"></i> <h4>[toUserID]</h4> </div> <p> [messageBody] </p> </div> </div>';
+                    if(messageCount != res.length){
+                        console.log(res.length);
+                        console.log('Data: ',res);
+
+                        for(let msg of res)
+                        {
+                            let msgdirection = '';
+
+                            if(msg.fromUserID == currentUserID){
+                                msgdirection = 'message-to';
+                            }
+                            if(msg. toUserID == currentUserID){
+                                msgdirection = '';
+                            }
+                            let msgFormat = '<div class="thread ' + msgdirection + '"> <div class="thread-user"> <i class="fa fa-user"></i> <h4>'+ msg.toUserID +'</h4> </div> <p> '+ msg.messageBody +' </p> </div>';
+                            msgs +=msgFormat;
+                        }
+                        $('#result').html( '<div class="messages-box">'+ msgs + '</div>');
+                        $('#result').animate({
+                            scrollTop: $(".thread:last-child").offset().top
+                        }, 2000);
+                    }
+                    messageCount = res.length;
                     setTimeout('checkMessages()',1000);
                 },   
                 error:function(err){

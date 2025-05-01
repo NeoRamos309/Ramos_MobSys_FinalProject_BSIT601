@@ -17,6 +17,10 @@
       {
          "Name": "[dbo].[UserAccount]",
          "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[UserMessage]",
+         "ObjectType": 0
       }
    ],
    "UiHint": null,

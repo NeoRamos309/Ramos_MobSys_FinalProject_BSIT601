@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PrefinalsWebSys1.Models;
 using System.Collections.Concurrent;
 using System.Data.Common;
 
@@ -14,6 +15,40 @@ namespace PrefinalsWebSys1.Controllers
         public IActionResult Messages()
         {
             return View();
+        }
+
+        [HttpPost]
+        public IActionResult SendMessage(MessageViewModel req)
+        {
+            var resp = new MessageViewModel();
+
+            using (var db = new SmileBookDBContext())
+            {
+                var newMessage = new UserMessage() { 
+                    FromUserID = req.SenderUserID,
+                    MessageBody = req.SenderMessage,
+                    MessageType = "NORMAL",
+                    Priorty=0,
+                    SentDate = DateTime.Now,
+                    ReceivedDate = DateTime.Now,
+                    ToUserID = req.ReceiverUserID,
+                    IsDeleted = false,
+                    CreatedBy="SYSTEM",
+                    ModifiedBy = "SYSTEM",
+                    CreatedDate = DateTime.Now,
+                    ModifiedDate = DateTime.Now,
+                };
+
+                db.UserMessages.Add(newMessage);
+                db.SaveChanges();
+
+                resp.SenderUserID = req.SenderUserID;
+                resp.MessageID = newMessage.ID;
+                resp.Status = "SENT";
+
+            }
+
+            return Json(resp);
         }
 
         public IActionResult GetMessages()
