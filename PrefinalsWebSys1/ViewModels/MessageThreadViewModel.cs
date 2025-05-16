@@ -1,4 +1,4 @@
-﻿namespace PrefinalsWebSys1.Models
+﻿namespace PrefinalsWebSys1.ViewModels
 {
     public class MessageThreadViewModel
     {
@@ -6,7 +6,7 @@
 
         public int ID { get; set; }
         public int FromUserID { get; set; }
-        public int ToUserID { get; set; }                
+        public int ToUserID { get; set; }
         public string MessageType { get; set; }
         public string MessageBody { get; set; }
         public int Priorty { get; set; }

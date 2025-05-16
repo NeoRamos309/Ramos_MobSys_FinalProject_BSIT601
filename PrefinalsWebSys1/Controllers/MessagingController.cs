@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PrefinalsWebSys1.Models;
+using PrefinalsWebSys1.ViewModels;
 
 namespace PrefinalsWebSys1.Controllers
 {

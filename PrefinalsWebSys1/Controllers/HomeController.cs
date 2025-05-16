@@ -1,6 +1,8 @@
 using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PrefinalsWebSys1.Models;
+using PrefinalsWebSys1.ViewModels;
 
 namespace PrefinalsWebSys1.Controllers
 {
@@ -13,6 +15,7 @@ namespace PrefinalsWebSys1.Controllers
             _logger = logger;
         }
 
+        //[Authorize]
         public IActionResult Index()
         {
             return View();

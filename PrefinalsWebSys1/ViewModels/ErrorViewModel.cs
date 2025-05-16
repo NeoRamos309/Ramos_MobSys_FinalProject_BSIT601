@@ -1,4 +1,4 @@
-namespace PrefinalsWebSys1.Models
+namespace PrefinalsWebSys1.ViewModels
 {
     public class ErrorViewModel
     {
